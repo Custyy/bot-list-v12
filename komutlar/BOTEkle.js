@@ -18,6 +18,7 @@ if (message.guild.members.cache.filter(Users => Users.user.bot).find(Botlar => B
 const BOTModeratör = ayarlar.BOTModRol
 db.set(`Durum_${ClientID}`,true)
 client.users.fetch(ClientID).then((User) => {
+if (!User) return message.channel.send('**Girdiğiniz ID Geçersiz.**').then(Message => Message.delete({timeout: 7500}))
 if (!User.bot) return message.channel.send('**Girdiğiniz ID Bir Bota Ait Değil.**').then(Message => Message.delete({timeout: 7500}))
 const Revenge = new Discord.MessageEmbed()
 .setColor('BLUE')
