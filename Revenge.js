@@ -172,32 +172,32 @@ Pepe.setSelfMute(true)
 // [ ----------------------------------------------] \\
 // [ ----------------------------------------------] \\
 client.on('messageDelete',async message => {
-    const Bilgi = db.fetch(`Bilgi_${message.id}`)
-    if (!Bilgi) return;
-    const fetchedLogs = await message.guild.fetchAuditLogs({type: 'MESSAGE_DELETE'}).then(Audit => Audit.entries.first())
-    if (fetchedLogs.executor.id === client.user.id) return
-    if (!client.guilds.cache.get(message.guild.id).members.cache.get(fetchedLogs.executor.id).roles.cache.find(Rol => Rol.id === ayarlar.BOTModRol)) return
-    const Clientt = Bilgi.Client
-    db.delete(`Durum_${Bilgi.Client}`)
-    client.users.fetch(Clientt).then((Client) => {
-        const Ceon = new Discord.MessageEmbed()
-        .setColor('BLUE')
-        .setAuthor(client.user.tag,client.user.avatarURL())
-        .setFooter(client.user.username,client.user.avatarURL())
-        .setTimestamp()
-        .setDescription(`❓ **| Reddetme sebebi yazınız.**`)
-        client.channels.cache.get(message.channel.id).send(Ceon).then(Message => {
-	     	Message.delete({timeout:15000})
-            client.guilds.cache.get(message.guild.id).channels.cache.get(message.channel.id).awaitMessages(Message => Message.member.roles.cache.find(Rol => Rol.id === ayarlar.BOTModRol) && Message.author.id === fetchedLogs.executor.id, {max: 1,time: 15000,errors: ['time']
-            }).then(async Collected => {
-            client.channels.cache.get(message.channel.id).bulkDelete(2)
-            client.users.cache.get(Bilgi.Gönderen).send(`Merhaba <@${Bilgi.Gönderen}>,
+const Bilgi = db.fetch(`Bilgi_${message.id}`)
+if (!Bilgi) return;
+const fetchedLogs = await message.guild.fetchAuditLogs({type: 'MESSAGE_DELETE'}).then(Audit => Audit.entries.first())
+if (fetchedLogs.executor.id === client.user.id) return
+if (!client.guilds.cache.get(message.guild.id).members.cache.get(fetchedLogs.executor.id).roles.cache.find(Rol => Rol.id === ayarlar.BOTModRol)) return
+const Clientt = Bilgi.Client
+db.delete(`Durum_${Bilgi.Client}`)
+client.users.fetch(Clientt).then((Client) => {
+const Ceon = new Discord.MessageEmbed()
+.setColor('BLUE')
+.setAuthor(client.user.tag,client.user.avatarURL())
+.setFooter(client.user.username,client.user.avatarURL())
+.setTimestamp()
+.setDescription(`❓ **| Reddetme sebebi yazınız.**`)
+client.channels.cache.get(message.channel.id).send(Ceon).then(Message => {
+Message.delete({timeout:15000})
+client.guilds.cache.get(message.guild.id).channels.cache.get(message.channel.id).awaitMessages(Message => Message.member.roles.cache.find(Rol => Rol.id === ayarlar.BOTModRol) && Message.author.id === fetchedLogs.executor.id, {max: 1,time: 15000,errors: ['time']
+}).then(async Collected => {
+client.channels.cache.get(message.channel.id).bulkDelete(2)
+client.users.cache.get(Bilgi.Gönderen).send(`Merhaba <@${Bilgi.Gönderen}>,
 **\`${message.guild.name}\` Sunucusunda Sırada Bekleyen \`${Client.tag}\` Adındaki Botunuz \`${Collected.first().author.tag}\` Tarafından \`${Collected.first().content || 'Belirtilmedi'}\` Sebebiyle Reddedildi.**`)
-            client.channels.cache.get(ayarlar.BOTLog).send(`**<@${Bilgi.Gönderen}> Adlı Kullanıcının \`${Client.tag}\` Adlı Sistemde Onay Bekleyen Botu \`${Collected.first().author.tag}\` Tarafından \`${Collected.first().content || 'Belirtilmedi'}\` Sebebiyle Reddedildi.**`)
-            })
-            })
-    })
-    })
+client.channels.cache.get(ayarlar.BOTLog).send(`**<@${Bilgi.Gönderen}> Adlı Kullanıcının \`${Client.tag}\` Adlı Sistemde Onay Bekleyen Botu \`${Collected.first().author.tag}\` Tarafından \`${Collected.first().content || 'Belirtilmedi'}\` Sebebiyle Reddedildi.**`)
+})
+})
+})
+})
 // RevengeNYKS \\
 client.elevation = message => {
     if (!message.guild) {
